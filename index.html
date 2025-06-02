@@ -2,7 +2,13 @@
 <html lang="pt-br">
   <head>
 
-   <!-- Meta Pixel Code -->
+   <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Facebook Pixel + API de Conversão</title>
+
+<!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -12,13 +18,69 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1599833577373695');
+fbq('init', '1075839114425133');
 fbq('track', 'PageView');
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1599833577373695&ev=PageView&noscript=1"
-/></noscript>
+<noscript>
+<img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1075839114425133&ev=PageView&noscript=1" />
+</noscript>
 <!-- End Meta Pixel Code -->
+
+<script>
+const API_URL = 'https://e0e72813-dcd9-4732-bf27-3a145bd62f0e-00-109dnieum3yzj.worf.replit.dev/capi';
+
+// Função para enviar evento para API de Conversão
+function enviarEvento(eventName, customData = {}) {
+fetch(API_URL, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({
+event_name: eventName,
+event_source_url: window.location.href,
+user_data: {}, // Opcional: adicione hash de dados do usuário para melhorar o rastreamento
+custom_data: customData
+})
+});
+}
+
+// Eventos
+function trackPageView() {
+fbq('track', 'PageView');
+enviarEvento('PageView');
+}
+
+function trackViewContent(contentName = '') {
+fbq('track', 'ViewContent', { content_name: contentName });
+enviarEvento('ViewContent', { content_name: contentName });
+}
+
+function trackInitiateCheckout() {
+fbq('track', 'InitiateCheckout');
+enviarEvento('InitiateCheckout');
+}
+
+function trackPurchase(value = 0, currency = 'BRL') {
+fbq('track', 'Purchase', { value, currency });
+enviarEvento('Purchase', { value, currency });
+}
+
+window.onload = () => {
+trackPageView();
+};
+</script>
+
+</head>
+<body>
+
+<h1>Teste Facebook Pixel + API de Conversão</h1>
+
+<button onclick="trackViewContent('Produto Exemplo')">Ver Produto</button>
+<button onclick="trackInitiateCheckout()">Iniciar Checkout</button>
+<button onclick="trackPurchase(199.99, 'BRL')">Finalizar Compra</button>
+
+</body>
+</html>
     
     
     <meta charset="utf-8">
